@@ -405,3 +405,284 @@ public:
 ```
 
 
+
+
+
+# [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/)
+
+
+
+给出二叉 **搜索** 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 `node` 的新值等于原树中大于或等于 `node.val` 的值之和。
+
+提醒一下，二叉搜索树满足下列约束条件：
+
+- 节点的左子树仅包含键 **小于** 节点键的节点。
+- 节点的右子树仅包含键 **大于** 节点键的节点。
+- 左右子树也必须是二叉搜索树。
+
+**注意：**本题和 1038: https://leetcode-cn.com/problems/binary-search-tree-to-greater-sum-tree/ 相同
+
+ 
+
+**示例 1：**
+
+**![img](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/05/03/tree.png)**
+
+```
+输入：[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
+输出：[30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
+```
+
+**示例 2：**
+
+```
+输入：root = [0,null,1]
+输出：[1,null,1]
+```
+
+**示例 3：**
+
+```
+输入：root = [1,0,2]
+输出：[3,3,2]
+```
+
+**示例 4：**
+
+```
+输入：root = [3,2,4,1]
+输出：[7,9,4,10]
+```
+
+
+
+题解：常规解法
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* convertBST(TreeNode* root) {
+        if (nullptr == root)
+            return nullptr;
+        convertBST(root->right);
+        curSum += root->val;
+        root->val = curSum;
+        convertBST(root->left);
+        return root;
+    }
+
+private:
+    int curSum = 0;
+};
+
+```
+
+
+
+
+
+# \*\*[494. 目标和](https://leetcode.cn/problems/target-sum/)
+
+
+
+给你一个非负整数数组 `nums` 和一个整数 `target` 。
+
+向数组中的每个整数前添加 `'+'` 或 `'-'` ，然后串联起所有整数，可以构造一个 **表达式** ：
+
+- 例如，`nums = [2, 1]` ，可以在 `2` 之前添加 `'+'` ，在 `1` 之前添加 `'-'` ，然后串联起来得到表达式 `"+2-1"` 。
+
+返回可以通过上述方法构造的、运算结果等于 `target` 的不同 **表达式** 的数目。
+
+ 
+
+**示例 1：**
+
+```
+输入：nums = [1,1,1,1,1], target = 3
+输出：5
+解释：一共有 5 种方法让最终目标和为 3 。
+-1 + 1 + 1 + 1 + 1 = 3
++1 - 1 + 1 + 1 + 1 = 3
++1 + 1 - 1 + 1 + 1 = 3
++1 + 1 + 1 - 1 + 1 = 3
++1 + 1 + 1 + 1 - 1 = 3
+```
+
+**示例 2：**
+
+```
+输入：nums = [1], target = 1
+输出：1
+```
+
+题解：dfs/dp
+
+
+
+
+
+# [461. 汉明距离](https://leetcode.cn/problems/hamming-distance/)
+
+
+
+两个整数之间的 [汉明距离](https://baike.baidu.com/item/汉明距离) 指的是这两个数字对应二进制位不同的位置的数目。
+
+给你两个整数 `x` 和 `y`，计算并返回它们之间的汉明距离。
+
+ 
+
+**示例 1：**
+
+```
+输入：x = 1, y = 4
+输出：2
+解释：
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+上面的箭头指出了对应二进制位不同的位置。
+```
+
+**示例 2：**
+
+```
+输入：x = 3, y = 1
+输出：1
+```
+
+ 
+
+提示：汉明码意思是一个字符串替换成另一个的最小变化
+
+```C++
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        int res = 0;
+        int p1 = 1 << 30;
+        for (int t=0; t<31;++t)
+        {
+            if ((p1 & x) != (p1 & y))
+            {
+                ++res;
+            }
+            p1 = p1 >> 1;
+        }
+
+        return res;
+    }
+};
+
+```
+
+
+
+# [448. 找到所有数组中消失的数字](https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/)
+
+
+
+给你一个含 `n` 个整数的数组 `nums` ，其中 `nums[i]` 在区间 `[1, n]` 内。请你找出所有在 `[1, n]` 范围内但没有出现在 `nums` 中的数字，并以数组的形式返回结果。
+
+ 
+
+**示例 1：**
+
+```
+输入：nums = [4,3,2,7,8,2,3,1]
+输出：[5,6]
+```
+
+**示例 2：**
+
+```
+输入：nums = [1,1]
+输出：[2]
+```
+
+ 
+
+**提示：**
+
+- `n == nums.length`
+- `1 <= n <= 105`
+- `1 <= nums[i] <= n`
+
+**进阶：**你能在不使用额外空间且时间复杂度为 `O(n)` 的情况下解决这个问题吗? 你可以假定返回的数组不算在额外空间内。
+
+题解：数组边界
+
+```C++
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int size = nums.size();
+
+        for (int i = 0; i < size; ++i)
+        {
+            if (nums[i] == i+1)
+            {
+                continue;
+            }
+            
+            int t = nums[i];
+            while (nums[t-1] != t)
+            {
+                int s = nums[t-1];
+                nums[t-1] = t;
+                t = s;
+            }
+        }
+
+        vector<int> ret;
+        for (int i = 0; i < size; ++i)
+        {
+            if (nums[i] != i+1)
+            {
+                ret.push_back(i+1);
+            }
+        }
+
+        return ret;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
